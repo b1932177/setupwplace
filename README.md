@@ -792,266 +792,129 @@
     ==> default: Forcing shutdown of VM...
     ==> default: Destroying VM and associated drives...
     ```
-Внес изменения в Vagrantfile:
-- пробросил 80й порт с гостевой машины в  хостовую на 8080й
-- указал количество ОЗУ и ядер процессора
-- в цикл первоначальной настройки ОС включил установку Вэб-сервера Apache2
+    Внес изменения в Vagrantfile:
+    - пробросил 80й порт с гостевой машины в  хостовую на 8080й
+    - указал количество ОЗУ и ядер процессора
+    - в цикл первоначальной настройки ОС включил установку Вэб-сервера Apache2
+
     ```
-    Vagrant.configure("2") do |config|
+        Vagrant.configure("2") do |config|
 
-    # boxes at https://vagrantcloud.com/search.
-    config.vm.box = "ubuntu/focal64"
-    config.vm.box_version = "20240821.0.0" 
-    # NOTE: This will enable public access to the opened port
-    config.vm.network "forwarded_port", guest: 80, host: 8080
+        # boxes at https://vagrantcloud.com/search.
+        config.vm.box = "ubuntu/focal64"
+        config.vm.box_version = "20240821.0.0" 
+        # NOTE: This will enable public access to the opened port
+        config.vm.network "forwarded_port", guest: 80, host: 8080
 
-    #
-    config.vm.provider "virtualbox" do |vb|
-    
-    #   # Customize the amount of memory on the VM:
-        vb.memory = "2048"
-        vb.cpus = "2"
+        #
+        config.vm.provider "virtualbox" do |vb|
+        
+        #   # Customize the amount of memory on the VM:
+            vb.memory = "2048"
+            vb.cpus = "2"
+            end
+        
+        # documentation for more information about their specific syntax and use.
+        config.vm.provision "shell", inline: <<-SHELL
+            apt-get update
+            apt-get install -y apache2
+        SHELL
         end
-    
-    # documentation for more information about their specific syntax and use.
-    config.vm.provision "shell", inline: <<-SHELL
-        apt-get update
-        apt-get install -y apache2
-    SHELL
-    end
-```
-Внес изменения в Vagrantfile, изменил количество ядер процессора, выполнил vagrant reload и vagrant provision:
-
-```
-    user@ws:~/Рабочий стол/OTUS/TASKS/0/setupws$ vagrant up
-    Bringing machine 'default' up with 'virtualbox' provider...
-    ==> default: Importing base box 'ubuntu/focal64'...
-    ==> default: Matching MAC address for NAT networking...
-    ==> default: Checking if box 'ubuntu/focal64' version '20240821.0.0' is up to date...
-    ==> default: Setting the name of the VM: setupws_default_1724920277024_70218
-    ==> default: Clearing any previously set network interfaces...
-    ==> default: Preparing network interfaces based on configuration...
-        default: Adapter 1: nat
-    ==> default: Forwarding ports...
-        default: 80 (guest) => 8080 (host) (adapter 1)
-        default: 22 (guest) => 2222 (host) (adapter 1)
-    ==> default: Running 'pre-boot' VM customizations...
-    ==> default: Booting VM...
-    ==> default: Waiting for machine to boot. This may take a few minutes...
-        default: SSH address: 127.0.0.1:2222
-        default: SSH username: vagrant
-        default: SSH auth method: private key
-        default: Warning: Connection reset. Retrying...
-        default: Warning: Remote connection disconnect. Retrying...
-        default: 
-        default: Vagrant insecure key detected. Vagrant will automatically replace
-        default: this with a newly generated keypair for better security.
-        default: 
-        default: Inserting generated public key within guest...
-        default: Removing insecure key from the guest if it's present...
-        default: Key inserted! Disconnecting and reconnecting using new SSH key...
-    ==> default: Machine booted and ready!
-    ==> default: Checking for guest additions in VM...
-        default: The guest additions on this VM do not match the installed version of
-        default: VirtualBox! In most cases this is fine, but in rare cases it can
-        default: prevent things such as shared folders from working properly. If you see
-        default: shared folder errors, please make sure the guest additions within the
-        default: virtual machine match the version of VirtualBox you have installed on
-        default: your host and reload your VM.
-        default: 
-        default: Guest Additions Version: 6.1.50
-        default: VirtualBox Version: 7.0
-    ==> default: Mounting shared folders...
-        default: /vagrant => /home/user/Рабочий стол/OTUS/TASKS/0/setupws
-    ==> default: Running provisioner: shell...
-        default: Running: inline script
-        default: Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
-        default: Get:2 http://archive.ubuntu.com/ubuntu focal-updates InRelease [128 kB]
-        default: Get:3 http://security.ubuntu.com/ubuntu focal-security InRelease [128 kB]
-        default: Get:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease [128 kB]
-        default: Get:5 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [8628 kB]
-        default: Get:6 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [3163 kB]
-        default: Get:7 http://archive.ubuntu.com/ubuntu focal/universe Translation-en [5124 kB]
-        default: Get:8 http://archive.ubuntu.com/ubuntu focal/universe amd64 c-n-f Metadata [265 kB]
-        default: Get:9 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [144 kB]
-        default: Get:10 http://archive.ubuntu.com/ubuntu focal/multiverse Translation-en [104 kB]
-        default: Get:11 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 c-n-f Metadata [9136 B]
-        default: Get:12 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [3534 kB]
-        default: Get:13 http://archive.ubuntu.com/ubuntu focal-updates/main Translation-en [547 kB]
-        default: Get:14 http://security.ubuntu.com/ubuntu focal-security/main Translation-en [467 kB]
-        default: Get:15 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [17.7 kB]
-        default: Get:16 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [3199 kB]
-        default: Get:17 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [3080 kB]
-        default: Get:18 http://archive.ubuntu.com/ubuntu focal-updates/restricted Translation-en [448 kB]
-        default: Get:19 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [1220 kB]
-        default: Get:20 http://archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [294 kB]
-        default: Get:21 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [27.8 kB]
-        default: Get:22 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [27.1 kB]
-        default: Get:23 http://archive.ubuntu.com/ubuntu focal-updates/multiverse Translation-en [7936 B]
-        default: Get:24 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 c-n-f Metadata [616 B]
-        default: Get:25 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 Packages [45.7 kB]
-        default: Get:26 http://archive.ubuntu.com/ubuntu focal-backports/main Translation-en [16.3 kB]
-        default: Get:27 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 c-n-f Metadata [1420 B]
-        default: Get:28 http://archive.ubuntu.com/ubuntu focal-backports/restricted amd64 c-n-f Metadata [116 B]
-        default: Get:29 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [25.0 kB]
-        default: Get:30 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-en [431 kB]
-        default: Get:31 http://archive.ubuntu.com/ubuntu focal-backports/universe Translation-en [16.3 kB]
-        default: Get:32 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 c-n-f Metadata [880 B]
-        default: Get:33 http://archive.ubuntu.com/ubuntu focal-backports/multiverse amd64 c-n-f Metadata [116 B]
-        default: Get:34 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [1001 kB]
-        default: Get:35 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [212 kB]
-        default: Get:36 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [21.0 kB]
-        default: Get:37 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [24.8 kB]
-        default: Get:38 http://security.ubuntu.com/ubuntu focal-security/multiverse Translation-en [5968 B]
-        default: Get:39 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 c-n-f Metadata [540 B]
-        default: Fetched 32.5 MB in 7s (4817 kB/s)
-        default: Reading package lists...
-        default: Reading package lists...
-        default: Building dependency tree...
-        default: Reading state information...
-        default: The following additional packages will be installed:
-        default:   apache2-bin apache2-data apache2-utils libapr1 libaprutil1
-        default:   libaprutil1-dbd-sqlite3 libaprutil1-ldap libjansson4 liblua5.2-0 ssl-cert
-        default: Suggested packages:
-        default:   apache2-doc apache2-suexec-pristine | apache2-suexec-custom www-browser
-        default:   openssl-blacklist
-        default: The following NEW packages will be installed:
-        default:   apache2 apache2-bin apache2-data apache2-utils libapr1 libaprutil1
-        default:   libaprutil1-dbd-sqlite3 libaprutil1-ldap libjansson4 liblua5.2-0 ssl-cert
-        default: 0 upgraded, 11 newly installed, 0 to remove and 5 not upgraded.
-        default: Need to get 1875 kB of archives.
-        default: After this operation, 8121 kB of additional disk space will be used.
-        default: Get:1 http://archive.ubuntu.com/ubuntu focal/main amd64 libapr1 amd64 1.6.5-1ubuntu1 [91.4 kB]
-        default: Get:2 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libaprutil1 amd64 1.6.1-4ubuntu2.2 [85.1 kB]
-        default: Get:3 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libaprutil1-dbd-sqlite3 amd64 1.6.1-4ubuntu2.2 [10.5 kB]
-        default: Get:4 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libaprutil1-ldap amd64 1.6.1-4ubuntu2.2 [8752 B]
-        default: Get:5 http://archive.ubuntu.com/ubuntu focal/main amd64 libjansson4 amd64 2.12-1build1 [28.9 kB]
-        default: Get:6 http://archive.ubuntu.com/ubuntu focal/main amd64 liblua5.2-0 amd64 5.2.4-1.1build3 [106 kB]
-        default: Get:7 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-bin amd64 2.4.41-4ubuntu3.21 [1189 kB]
-        default: Get:8 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-data all 2.4.41-4ubuntu3.21 [159 kB]
-        default: Get:9 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-utils amd64 2.4.41-4ubuntu3.21 [84.7 kB]
-        default: Get:10 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2 amd64 2.4.41-4ubuntu3.21 [95.6 kB]
-        default: Get:11 http://archive.ubuntu.com/ubuntu focal/main amd64 ssl-cert all 1.0.39 [17.0 kB]
-        default: dpkg-preconfigure: unable to re-open stdin: No such file or directory
-        default: Fetched 1875 kB in 1s (2808 kB/s)
-        default: Selecting previously unselected package libapr1:amd64.
-    (Reading database ... 63783 files and directories currently installed.)
-        default: Preparing to unpack .../00-libapr1_1.6.5-1ubuntu1_amd64.deb ...
-        default: Unpacking libapr1:amd64 (1.6.5-1ubuntu1) ...
-        default: Selecting previously unselected package libaprutil1:amd64.
-        default: Preparing to unpack .../01-libaprutil1_1.6.1-4ubuntu2.2_amd64.deb ...
-        default: Unpacking libaprutil1:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Selecting previously unselected package libaprutil1-dbd-sqlite3:amd64.
-        default: Preparing to unpack .../02-libaprutil1-dbd-sqlite3_1.6.1-4ubuntu2.2_amd64.deb ...
-        default: Unpacking libaprutil1-dbd-sqlite3:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Selecting previously unselected package libaprutil1-ldap:amd64.
-        default: Preparing to unpack .../03-libaprutil1-ldap_1.6.1-4ubuntu2.2_amd64.deb ...
-        default: Unpacking libaprutil1-ldap:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Selecting previously unselected package libjansson4:amd64.
-        default: Preparing to unpack .../04-libjansson4_2.12-1build1_amd64.deb ...
-        default: Unpacking libjansson4:amd64 (2.12-1build1) ...
-        default: Selecting previously unselected package liblua5.2-0:amd64.
-        default: Preparing to unpack .../05-liblua5.2-0_5.2.4-1.1build3_amd64.deb ...
-        default: Unpacking liblua5.2-0:amd64 (5.2.4-1.1build3) ...
-        default: Selecting previously unselected package apache2-bin.
-        default: Preparing to unpack .../06-apache2-bin_2.4.41-4ubuntu3.21_amd64.deb ...
-        default: Unpacking apache2-bin (2.4.41-4ubuntu3.21) ...
-        default: Selecting previously unselected package apache2-data.
-        default: Preparing to unpack .../07-apache2-data_2.4.41-4ubuntu3.21_all.deb ...
-        default: Unpacking apache2-data (2.4.41-4ubuntu3.21) ...
-        default: Selecting previously unselected package apache2-utils.
-        default: Preparing to unpack .../08-apache2-utils_2.4.41-4ubuntu3.21_amd64.deb ...
-        default: Unpacking apache2-utils (2.4.41-4ubuntu3.21) ...
-        default: Selecting previously unselected package apache2.
-        default: Preparing to unpack .../09-apache2_2.4.41-4ubuntu3.21_amd64.deb ...
-        default: Unpacking apache2 (2.4.41-4ubuntu3.21) ...
-        default: Selecting previously unselected package ssl-cert.
-        default: Preparing to unpack .../10-ssl-cert_1.0.39_all.deb ...
-        default: Unpacking ssl-cert (1.0.39) ...
-        default: Setting up libapr1:amd64 (1.6.5-1ubuntu1) ...
-        default: Setting up libjansson4:amd64 (2.12-1build1) ...
-        default: Setting up ssl-cert (1.0.39) ...
-        default: Setting up liblua5.2-0:amd64 (5.2.4-1.1build3) ...
-        default: Setting up apache2-data (2.4.41-4ubuntu3.21) ...
-        default: Setting up libaprutil1:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Setting up libaprutil1-ldap:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Setting up libaprutil1-dbd-sqlite3:amd64 (1.6.1-4ubuntu2.2) ...
-        default: Setting up apache2-utils (2.4.41-4ubuntu3.21) ...
-        default: Setting up apache2-bin (2.4.41-4ubuntu3.21) ...
-        default: Setting up apache2 (2.4.41-4ubuntu3.21) ...
-        default: Enabling module mpm_event.
-        default: Enabling module authz_core.
-        default: Enabling module authz_host.
-        default: Enabling module authn_core.
-        default: Enabling module auth_basic.
-        default: Enabling module access_compat.
-        default: Enabling module authn_file.
-        default: Enabling module authz_user.
-        default: Enabling module alias.
-        default: Enabling module dir.
-        default: Enabling module autoindex.
-        default: Enabling module env.
-        default: Enabling module mime.
-        default: Enabling module negotiation.
-        default: Enabling module setenvif.
-        default: Enabling module filter.
-        default: Enabling module deflate.
-        default: Enabling module status.
-        default: Enabling module reqtimeout.
-        default: Enabling conf charset.
-        default: Enabling conf localized-error-pages.
-        default: Enabling conf other-vhosts-access-log.
-        default: Enabling conf security.
-        default: Enabling conf serve-cgi-bin.
-        default: Enabling site 000-default.
-        default: Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
-        default: Created symlink /etc/systemd/system/multi-user.target.wants/apache-htcacheclean.service → /lib/systemd/system/apache-htcacheclean.service.
-        default: Processing triggers for ufw (0.36-6ubuntu1.1) ...
-        default: Processing triggers for systemd (245.4-4ubuntu3.23) ...
-        default: Processing triggers for man-db (2.9.1-1) ...
-        default: Processing triggers for libc-bin (2.31-0ubuntu9.16) ...
-    user@ws:~/Рабочий стол/OTUS/TASKS/0/setupws$ vagrant reload
-    ==> default: Attempting graceful shutdown of VM...
-    ==> default: Checking if box 'ubuntu/focal64' version '20240821.0.0' is up to date...
-    ==> default: Clearing any previously set forwarded ports...
-    ==> default: Clearing any previously set network interfaces...
-    ==> default: Preparing network interfaces based on configuration...
-        default: Adapter 1: nat
-    ==> default: Forwarding ports...
-        default: 80 (guest) => 8080 (host) (adapter 1)
-        default: 22 (guest) => 2222 (host) (adapter 1)
-    ==> default: Running 'pre-boot' VM customizations...
-    ==> default: Booting VM...
-    ==> default: Waiting for machine to boot. This may take a few minutes...
-        default: SSH address: 127.0.0.1:2222
-        default: SSH username: vagrant
-        default: SSH auth method: private key
-    ==> default: Machine booted and ready!
-    ==> default: Checking for guest additions in VM...
-        default: The guest additions on this VM do not match the installed version of
-        default: VirtualBox! In most cases this is fine, but in rare cases it can
-        default: prevent things such as shared folders from working properly. If you see
-        default: shared folder errors, please make sure the guest additions within the
-        default: virtual machine match the version of VirtualBox you have installed on
-        default: your host and reload your VM.
-        default: 
-        default: Guest Additions Version: 6.1.50
-        default: VirtualBox Version: 7.0
-    ==> default: Mounting shared folders...
-        default: /vagrant => /home/user/Рабочий стол/OTUS/TASKS/0/setupws
-    ==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
-    ==> default: flag to force provisioning. Provisioners marked to run always will still run.
-    user@ws:~/Рабочий стол/OTUS/TASKS/0/setupws$ vagrant provision
-    ==> default: Running provisioner: shell...
-        default: Running: inline script
-        default: Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
-        default: Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
-        default: Hit:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease
-        default: Hit:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease
-        default: Reading package lists...
-        default: Reading package lists...
-        default: Building dependency tree...
-        default: Reading state information...
-        default: apache2 is already the newest version (2.4.41-4ubuntu3.21).
-        default: 0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
     ```
+    Внес изменения в Vagrantfile, изменил количество ядер процессора:
+
+    ```
+        Vagrant.configure("2") do |config|
+
+        # boxes at https://vagrantcloud.com/search.
+        config.vm.box = "ubuntu/focal64"
+        config.vm.box_version = "20240821.0.0" 
+        # NOTE: This will enable public access to the opened port
+        config.vm.network "forwarded_port", guest: 80, host: 8080
+
+        #
+        config.vm.provider "virtualbox" do |vb|
+        
+        #   # Customize the amount of memory on the VM:
+            vb.memory = "2048"
+            vb.cpus = "1"
+            end
+        
+        # documentation for more information about their specific syntax and use.
+        config.vm.provision "shell", inline: <<-SHELL
+            apt-get update
+            apt-get install -y apache2
+        SHELL
+        end
+    ```
+
+    Выполнил vagrant reload:
+
+    ```
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupws$ vagrant reload
+        ==> default: Attempting graceful shutdown of VM...
+        ==> default: Checking if box 'ubuntu/focal64' version '20240821.0.0' is up to date...
+        ==> default: Clearing any previously set forwarded ports...
+        ==> default: Clearing any previously set network interfaces...
+        ==> default: Preparing network interfaces based on configuration...
+            default: Adapter 1: nat
+        ==> default: Forwarding ports...
+            default: 80 (guest) => 8080 (host) (adapter 1)
+            default: 22 (guest) => 2222 (host) (adapter 1)
+        ==> default: Running 'pre-boot' VM customizations...
+        ==> default: Booting VM...
+        ==> default: Waiting for machine to boot. This may take a few minutes...
+            default: SSH address: 127.0.0.1:2222
+            default: SSH username: vagrant
+            default: SSH auth method: private key
+        ==> default: Machine booted and ready!
+        ==> default: Checking for guest additions in VM...
+            default: The guest additions on this VM do not match the installed version of
+            default: VirtualBox! In most cases this is fine, but in rare cases it can
+            default: prevent things such as shared folders from working properly. If you see
+            default: shared folder errors, please make sure the guest additions within the
+            default: virtual machine match the version of VirtualBox you have installed on
+            default: your host and reload your VM.
+            default: 
+            default: Guest Additions Version: 6.1.50
+            default: VirtualBox Version: 7.0
+        ==> default: Mounting shared folders...
+            default: /vagrant => /home/user/Рабочий стол/OTUS/TASKS/0/setupws
+        ==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+        ==> default: flag to force provisioning. Provisioners marked to run always will still run.
+    ```
+    Выполнил vagrant provision:
+    ```
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupws$ vagrant provision
+        ==> default: Running provisioner: shell...
+            default: Running: inline script
+            default: Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+            default: Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
+            default: Hit:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+            default: Hit:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+            default: Reading package lists...
+            default: Reading package lists...
+            default: Building dependency tree...
+            default: Reading state information...
+            default: apache2 is already the newest version (2.4.41-4ubuntu3.21).
+            default: 0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
+    ```
+    ## Загрузка домашнего задания в GitHub
+    1. Зарегистрировался на GitHub.
+    2. Отправка Vagrantfile в GitHub:
+        a) Создал репозиторий "setupwplace"
+    
+    После создания репозитория откроется окно с инструкциями как отправить файлы в указанный репозиторий
+
+    4) В каталоге с нашим Vagrantfile создадим файл README.md в котором напишем информацию о нашем файле, например: 	
+    5) Добавим в папку систему контроля версий git: git init
+    6) Добавим наши файлы в систему контроля версий: git add README.md Vagrantfile
+    7) Зафиксируем изменения: git commit -m «test commit»
+    8) Добавим информацию о созданном репозитории в GitHub: git remote add origin https://github.com/alex8443/test_vm.git
+    (Адрес будет показан после создания репозитория)
+    9) Отправляем файлы в удаленный репозиторий GitHub: git push -u origin master
+    После ввода данной команды потребуется ввести:
+    Username (можно указать имя пользователя или почтовый ящик)
+    Password (указываем token, который создали в прошлом пункте)
+
+    После успешной аутентификации начнётся отправка файлов в GitHub. 

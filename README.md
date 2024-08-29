@@ -903,14 +903,101 @@
     1. Зарегистрировался на GitHub.
     2. Отправка Vagrantfile в GitHub:
         a) Создал репозиторий "setupwplace"
-    
-    После создания репозитория откроется окно с инструкциями как отправить файлы в указанный репозиторий
+        b) Подключил репозиторий
+        ```
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git init
+        подсказка: Using 'master' as the name for the initial branch. This default branch name
+        подсказка: is subject to change. To configure the initial branch name to use in all
+        подсказка: of your new repositories, which will suppress this warning, call:
+        подсказка: 
+        подсказка:      git config --global init.defaultBranch <name>
+        подсказка: 
+        подсказка: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+        подсказка: 'development'. The just-created branch can be renamed via this command:
+        подсказка: 
+        подсказка:      git branch -m <name>
+        Инициализирован пустой репозиторий Git в /home/user/Рабочий стол/OTUS/TASKS/0/setupwpl/.git/
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git add README.md Vagrantfile
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «test commit»
+        error: pathspec 'commit»' did not match any file(s) known to git
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «ver 0.0»
+        error: pathspec '0.0»' did not match any file(s) known to git
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «setupwpl»
+        Author identity unknown
 
+        *** Пожалуйста, скажите мне кто вы есть.
+
+        Запустите
+
+        git config --global user.email "you@example.com"
+        git config --global user.name "Ваше Имя"
+
+        для указания идентификационных данных аккаунта по умолчанию.
+        Пропустите параметр --global для указания данных только для этого репозитория.
+
+        fatal: не удалось выполнить автоопределение адреса электронной почты (получено «user@ws.(none)»)
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git remote add origin https://github.com/b1932177/setupwplace.git
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git branch -M main
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git push -u origin main
+        error: src refspec main ничему не соответствует
+        error: не удалось отправить некоторые ссылки в «https://github.com/b1932177/setupwplace.git»
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «main»
+        Author identity unknown
+
+        *** Пожалуйста, скажите мне кто вы есть.
+
+        Запустите
+
+        git config --global user.email "you@example.com"
+        git config --global user.name "Ваше Имя"
+
+        для указания идентификационных данных аккаунта по умолчанию.
+        Пропустите параметр --global для указания данных только для этого репозитория.
+
+        fatal: не удалось выполнить автоопределение адреса электронной почты (получено «user@ws.(none)»)
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git add README.md
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git push -u origin main
+        error: src refspec main ничему не соответствует
+        error: не удалось отправить некоторые ссылки в «https://github.com/b1932177/setupwplace.git»
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ ^C
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git config --global user.email "b1932177@gmail.com"
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git config --global user.name "b1932177"
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «main»
+        [main (корневой коммит) 75eb406] «main»
+        2 files changed, 1079 insertions(+)
+        create mode 100644 README.md
+        create mode 100644 Vagrantfile
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git push -u origin main
+        Перечисление объектов: 4, готово.
+        Подсчет объектов: 100% (4/4), готово.
+        При сжатии изменений используется до 4 потоков
+        Сжатие объектов: 100% (4/4), готово.
+        Запись объектов: 100% (4/4), 13.27 КиБ | 4.42 МиБ/с, готово.
+        Всего 4 (изменений 0), повторно использовано 0 (изменений 0), повторно использовано пакетов 0
+        To https://github.com/b1932177/setupwplace.git
+        * [new branch]      main -> main
+        branch 'main' set up to track 'origin/main'.
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git add README.md
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git commit -m «main»
+        [main 798ea44] «main»
+        1 file changed, 123 insertions(+), 260 deletions(-)
+        user@ws:~/Рабочий стол/OTUS/TASKS/0/setupwpl$ git push -u origin main
+        Перечисление объектов: 5, готово.
+        Подсчет объектов: 100% (5/5), готово.
+        При сжатии изменений используется до 4 потоков
+        Сжатие объектов: 100% (3/3), готово.
+        Запись объектов: 100% (3/3), 1.51 КиБ | 771.00 КиБ/с, готово.
+        Всего 3 (изменений 1), повторно использовано 0 (изменений 0), повторно использовано пакетов 0
+        remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+        To https://github.com/b1932177/setupwplace.git
+        75eb406..798ea44  main -> main
+        branch 'main' set up to track 'origin/main'.
+        ```
     4) В каталоге с нашим Vagrantfile создадим файл README.md в котором напишем информацию о нашем файле, например: 	
     5) Добавим в папку систему контроля версий git: git init
     6) Добавим наши файлы в систему контроля версий: git add README.md Vagrantfile
     7) Зафиксируем изменения: git commit -m «test commit»
-    8) Добавим информацию о созданном репозитории в GitHub: git remote add origin https://github.com/alex8443/test_vm.git
+    8) Добавим информацию о созданном репозитории в GitHub: git remote add origin https://github.com/b1932177/setupwplace.git
     (Адрес будет показан после создания репозитория)
     9) Отправляем файлы в удаленный репозиторий GitHub: git push -u origin master
     После ввода данной команды потребуется ввести:
